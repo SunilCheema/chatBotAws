@@ -26,9 +26,10 @@ def errors():
   return jsonify(status=200) 
 
 
-stringExample = 'instance memory for r4.large'
+stringExample = 'instance memory for r4.large processor architecture'
 instances= dataframe['Instance Type'].tolist()
-print(instances)
+twoWordHeadings = ['operating system', 'processor architecture', 'network performance']
+#print(instances)
 columnHeadings = dataframe.columns.values.tolist()
 #print(columnHeadings)
 columnHeadings = [x.lower() for x in columnHeadings]
@@ -48,6 +49,9 @@ def test1(input):
     if column in split:
       columnHeadingsPresent = column.title()
       
+  for heading in twoWordHeadings:
+    if heading in input:
+      columnHeadingsPresent = heading.title()
   
   if instancePresent and columnHeadingsPresent:
     #print('instancePresent and columnHeadings are equal to true')
