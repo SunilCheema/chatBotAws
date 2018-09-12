@@ -26,33 +26,31 @@ def errors():
   return jsonify(status=200) 
 
 
-stringExample = 'instance memory for r4.large processor architecture'
+stringExample = 'instance vcpu for r4.large storage'
+
+
 instances= dataframe['Instance Type'].tolist()
-twoWordHeadings = ['operating system', 'processor architecture', 'network performance']
 #print(instances)
 columnHeadings = dataframe.columns.values.tolist()
 #print(columnHeadings)
 columnHeadings = [x.lower() for x in columnHeadings]
 
 def test1(input):
-  split = input.split(' ')
   
   instancePresent = ''
   columnHeadingsPresent = ''
   result = 'please include more information'
   
   for instance in instances:
-    if instance in split:
+    if instance in input:
       instancePresent = instance
   
   for column in columnHeadings:
-    if column in split:
+    if column in input:
       columnHeadingsPresent = column.title()
+      if columnHeadingsPresent in 'Vcpu':
+        columnHeadingsPresent = 'vCPU'
       
-  for heading in twoWordHeadings:
-    if heading in input:
-      columnHeadingsPresent = heading.title()
-  
   if instancePresent and columnHeadingsPresent:
     #print('instancePresent and columnHeadings are equal to true')
     indexInstance = instances.index(instancePresent)
@@ -62,13 +60,29 @@ def test1(input):
     
   return result
   
-def test2():
-  print(dataframe['Instance Type'].tolist())
-  #exampleList = dataframe.columns.values.tolist()
-  #return instance name + column value
 
-variable = test1(stringExample)
-print(variable)
+def test3(input):
+  selectedPhrase= ''
+  triggerPhraseDict = { 'compute':['c5', 'c4'], 'memory':['x1', 'r5', 'r4', 'z1d'], 'accelerated':['p3','p2','g3','f1'], 'general':['t3','t2','m5','m4'],'storage':['h1','i3','d2'] } 
+  triggerPhrases = triggerPhraseDict.keys()
+  result = []
+  for phrase in triggerPhrases:
+    if phrase in input:
+      selectedPhrase = phrase
+      for instance in instances:
+          for keyInstance in triggerPhraseDict[selectedPhrase]:
+            if keyInstance in instance:
+              result.append(instance)
+      
+  result = list(set(result))
+  print(result)
+  
+def findResult(input):
+  print('no')
+#variable = test1(stringExample)
+#print(variable)
+test3(stringExample)
+
 #print(instances)
 #test2()
 #app.run(port=port)
