@@ -75,10 +75,17 @@ def test3(input):
               result.append(instance)
       
   result = list(set(result))
-  print(result)
+  stringResult = ''
+  
+  for item in result:
+    stringResult += item
+    stringResult += ', '
+  #print(result)
+  print(stringResult)
   
 def findResult(input):
   print('no')
+
 #variable = test1(stringExample)
 #print(variable)
 test3(stringExample)
